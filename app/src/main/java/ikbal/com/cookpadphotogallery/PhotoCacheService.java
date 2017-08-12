@@ -81,6 +81,7 @@ public class PhotoCacheService extends IntentService{
         });
     }
     private void downloadPhoto(final Photo photo){
+        /**
         Picasso.with(this)
                 .load(photo.thumbUrl())
                 .fetch(new com.squareup.picasso.Callback() {
@@ -94,5 +95,9 @@ public class PhotoCacheService extends IntentService{
                         Log.e(TAG, "onError: "+photo.getId());
                     }
                 });
+         */
+        Picasso.with(this)
+                .load(photo.thumbUrl())
+                .into(new ImageCacheTarget(photo.thumbUrl()));
     }
 }

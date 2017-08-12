@@ -1,6 +1,7 @@
 package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
+import android.os.Environment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,21 +67,39 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
 
-        Picasso.with(context)
-                .load(photo.thumbUrl())
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(holder.galleryImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.galleryImageProgressBar.setVisibility(View.GONE);
-                    }
+        File file = new File(Environment.getDataDirectory()+ "/imagecache/" + photos.get(position).thumbUrl());
+        if (file.exists()){
+            Picasso.with(context)
+                    .load(file)
+                    .into(holder.galleryImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.galleryImageProgressBar.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError() {
-                        holder.galleryImageProgressBar.setVisibility(View.GONE);
-                        holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
-                    }
-                });
+                        @Override
+                        public void onError() {
+                            holder.galleryImageProgressBar.setVisibility(View.GONE);
+                            holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
+                        }
+                    });
+        }else{
+            Picasso.with(context)
+                    .load(photo.thumbUrl())
+                    .into(holder.galleryImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.galleryImageProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            holder.galleryImageProgressBar.setVisibility(View.GONE);
+                            holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
+                        }
+                    });
+        }
+
 
         //setup shared element transition name
         ViewCompat.setTransitionName(holder.galleryImageView, photo.getId());
