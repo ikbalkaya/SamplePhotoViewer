@@ -72,6 +72,7 @@ public class PhotoListActivity extends AppCompatActivity implements OnThumbClick
 
         intent.putExtra(GalleryActivity.EXTRA_PHOTOS,gson.toJson(photos));
         intent.putExtra(GalleryActivity.EXTRA_SELECTED_INDEX,photoIndex);
+        startActivity(intent);
     }
 }
 

@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import ikbal.com.cookpadphotogallery.model.Photo;
 
 /**
@@ -28,6 +29,8 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
+
+        ButterKnife.bind(this);
         String photosJson = getIntent().getStringExtra(EXTRA_PHOTOS);
         if (photosJson != null){
             Gson gson = new Gson();

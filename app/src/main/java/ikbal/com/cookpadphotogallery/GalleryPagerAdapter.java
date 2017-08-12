@@ -2,6 +2,7 @@ package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,10 @@ public class GalleryPagerAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
 
+    }
+    @Override
+    public void destroyItem(View container, int position, Object object) {
+        ((ViewPager) container).removeView((View) object);
     }
 
     @Override

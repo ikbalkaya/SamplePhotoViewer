@@ -17,7 +17,7 @@ public class Photo {
     }
     public String originalUrl(){
         int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_o.jpg",farmId,this.server,this.id,this.secret);
+        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_b.jpg",farmId,this.server,this.id,this.secret);
     }
     // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
 
