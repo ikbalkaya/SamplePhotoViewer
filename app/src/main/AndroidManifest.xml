@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PhotoListActivity"
+            android:name=".GalleryListActivity"
             android:label="@string/recent_photos_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

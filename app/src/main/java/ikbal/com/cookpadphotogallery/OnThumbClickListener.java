@@ -1,6 +1,7 @@
 package ikbal.com.cookpadphotogallery;
 
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import ikbal.com.cookpadphotogallery.model.Photo;
 
@@ -9,5 +10,5 @@ import ikbal.com.cookpadphotogallery.model.Photo;
  */
 
 public interface OnThumbClickListener {
-    void onClickOnThumb(int photoIndex, ImageView imageView) ;
+    void onClickOnThumb(int photoIndex, ImageView imageView, ProgressBar progressBar) ;
 }

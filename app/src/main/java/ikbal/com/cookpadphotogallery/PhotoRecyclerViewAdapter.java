@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ikbal.com.cookpadphotogallery.model.Photo;
+import ikbal.com.cookpadphotogallery.utils.DisplayUtils;
 
 /**
  * Created by ikbal on 11/08/2017.
@@ -43,9 +44,21 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_photo_cell, parent, false);
-        return new PhotoViewHolder(view);
+        PhotoViewHolder viewHolder = new PhotoViewHolder(view);
+        updateImageSize(viewHolder.galleryImageView);
+        return viewHolder;
     }
+    /*image size needs to be normalized to adapt the current screen */
+    private void updateImageSize(ImageView imageView){
+        int calculatedDimension =DisplayUtils.thumbDimension();
 
+        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+        layoutParams.height = calculatedDimension;//same as width
+        layoutParams.width = calculatedDimension;
+
+        imageView.setLayoutParams(layoutParams);
+
+    }
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
@@ -70,7 +83,7 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClickOnThumb(position, holder.galleryImageView);
+                listener.onClickOnThumb(position, holder.galleryImageView, holder.galleryImageProgressBar);
             }
         });
 

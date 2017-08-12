@@ -18,10 +18,10 @@ public class Photo {
      * https://www.flickr.com/services/api/misc.urls.html
      */
 
-    //large square 150x150
+    //320 for longest side
     public String thumbUrl() {
         int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_q.jpg", farmId, this.server, this.id, this.secret);
+        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_n.jpg", farmId, this.server, this.id, this.secret);
     }
 
     public String originalUrl() {

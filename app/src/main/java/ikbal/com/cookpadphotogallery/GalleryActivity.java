@@ -1,7 +1,10 @@
 package ikbal.com.cookpadphotogallery;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -29,8 +32,8 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
-       // supportPostponeEnterTransition();
-
+       supportPostponeEnterTransition();
+       //  postponeEnterTransition();
         ButterKnife.bind(this);
         String photosJson = getIntent().getStringExtra(EXTRA_PHOTOS);
         if (photosJson != null){
@@ -41,5 +44,10 @@ public class GalleryActivity extends AppCompatActivity {
             galleryPager.setAdapter(pagerAdapter);
             galleryPager.setCurrentItem(selectedIndex);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

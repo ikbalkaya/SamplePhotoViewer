@@ -8,9 +8,9 @@ import android.util.DisplayMetrics;
  */
 
 public class DisplayUtils {
-    static final int THUMB_SIZE_PX = 150+16;//plus padding
+    public static final int MIN_THUMB_SIZE = 250;
 
-     static int getScreenWidth() {
+      static int getScreenWidth() {
          final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
 
          return displayMetrics.widthPixels;
@@ -18,6 +18,14 @@ public class DisplayUtils {
 
     public static int photoPerRow(){
         int screenWidth = getScreenWidth();
-       return screenWidth/THUMB_SIZE_PX;
+       return screenWidth/ MIN_THUMB_SIZE;
+    }
+    public static int thumbDimension(){
+        int screenWidth = getScreenWidth();
+        int numberOfPhotos = photoPerRow();
+        //distribute remaining to minwidth
+        int remainingWidth = screenWidth - (DisplayUtils.MIN_THUMB_SIZE * numberOfPhotos);
+        int calculatedWidth = remainingWidth/numberOfPhotos + DisplayUtils.MIN_THUMB_SIZE;
+        return calculatedWidth;
     }
 }

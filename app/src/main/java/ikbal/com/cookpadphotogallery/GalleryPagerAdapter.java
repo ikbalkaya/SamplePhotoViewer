@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Callback;
@@ -35,7 +36,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if(photos != null){
+        if (photos != null) {
             return photos.size();
         }
         return 0;
@@ -46,6 +47,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
         return view == object;
 
     }
+
     @Override
     public void destroyItem(View container, int position, Object object) {
         ((ViewPager) container).removeView((View) object);
@@ -60,7 +62,6 @@ public class GalleryPagerAdapter extends PagerAdapter {
                 false);
 
         final ImageView originalImageView = (ImageView) viewLayout.findViewById(R.id.originalImageView);
-
         ViewCompat.setTransitionName(originalImageView, photos.get(position).getId());
 
         Picasso.with(activity)
@@ -69,17 +70,31 @@ public class GalleryPagerAdapter extends PagerAdapter {
                     @Override
                     public void onSuccess() {
 
-                       // activity.supportStartPostponedEnterTransition();
-
+                        scheduleStartPostponedTransition(originalImageView);
                     }
 
                     @Override
                     public void onError() {
+                        originalImageView.setImageResource(R.drawable.no_picture_available);
+                        scheduleStartPostponedTransition(originalImageView);
                     }
                 });
 
         container.addView(viewLayout);
 
         return viewLayout;
+    }
+
+
+    private void scheduleStartPostponedTransition(final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                        activity.supportStartPostponedEnterTransition();
+                        return true;
+                    }
+                });
     }
 }
