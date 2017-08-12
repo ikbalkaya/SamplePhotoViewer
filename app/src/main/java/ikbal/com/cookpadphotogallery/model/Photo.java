@@ -10,10 +10,10 @@ public class Photo {
     private String server;
 
 
-    /*Max 240 on longest side, to show on gallery list */
-    public String smallSizedPhotoUrl(){
+    /*large square 150x150*/
+    public String thumbUrl(){
         int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_m.jpg",farmId,this.server,this.id,this.secret);
+        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_q.jpg",farmId,this.server,this.id,this.secret);
     }
     public String originalUrl(){
         int farmId = 1;

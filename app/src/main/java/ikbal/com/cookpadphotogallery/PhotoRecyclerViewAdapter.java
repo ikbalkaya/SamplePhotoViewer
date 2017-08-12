@@ -1,6 +1,7 @@
 package ikbal.com.cookpadphotogallery;
 
-import android.support.v7.widget.GridLayoutManager;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +33,7 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
 
     @Override
     public int getItemCount() {
-        if(photos != null){
+        if (photos != null) {
             return photos.size();
         }
         return 0;
@@ -46,8 +48,10 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
-        Picasso.with(holder.itemView.getContext())
-                .load(photo.smallSizedPhotoUrl())
+        final Context context = holder.itemView.getContext();
+
+        Picasso.with(context)
+                .load(photo.thumbUrl())
                 .into(holder.galleryImageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -59,9 +63,10 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
 
     }
 
-    static class PhotoViewHolder extends RecyclerView.ViewHolder{
+    static class PhotoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.gallery_imageView)
         ImageView galleryImageView;
+
         public PhotoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

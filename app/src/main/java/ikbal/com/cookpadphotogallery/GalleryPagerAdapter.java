@@ -60,9 +60,9 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
         final ImageView originalImageView = (ImageView) viewLayout.findViewById(R.id.originalImageView);
 
-        //first put small image and replace when the original imag downloaded
+
         Picasso.with(activity)
-                .load(photos.get(position).smallSizedPhotoUrl())
+                .load(photos.get(position).thumbUrl())
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -74,7 +74,6 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
                     @Override
                     public void onError() {
-//do nothing
                     }
                 });
 

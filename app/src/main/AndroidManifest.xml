@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GalleryActivity"/>
+        <service android:name=".PhotoCacheService"
+            android:exported="false"/>
     </application>
 
 </manifest>
