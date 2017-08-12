@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import ikbal.com.cookpadphotogallery.api.ApiCreator;
@@ -23,6 +25,8 @@ import retrofit2.Response;
  */
 
 public class PhotoCacheService extends IntentService{
+    private static final String TAG = PhotoCacheService.class.getSimpleName();
+
     public static final String EXTRA_RECEIVER = "EXTRA_RECEIVER";
     public static final String EXTRA_PHOTOS = "EXTRA_PHOTOS";
     public static final int PHOTOS_RECEIVED_CODE = 10;
@@ -76,9 +80,19 @@ public class PhotoCacheService extends IntentService{
             }
         });
     }
-    private void downloadPhoto(Photo photo){
+    private void downloadPhoto(final Photo photo){
         Picasso.with(this)
                 .load(photo.thumbUrl())
-                .fetch();
+                .fetch(new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "onSuccess: "+photo.getId());
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e(TAG, "onError: "+photo.getId());
+                    }
+                });
     }
 }

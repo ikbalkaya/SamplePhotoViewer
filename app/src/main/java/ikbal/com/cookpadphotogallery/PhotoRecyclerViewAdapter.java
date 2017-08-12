@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
 
         Picasso.with(context)
                 .load(photo.thumbUrl())
+                .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(holder.galleryImageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -74,6 +76,8 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
 
                     @Override
                     public void onError() {
+                        holder.galleryImageProgressBar.setVisibility(View.GONE);
+                        holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
                     }
                 });
 
