@@ -1,14 +1,15 @@
 package ikbal.com.cookpadphotogallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Gallery;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -22,35 +23,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PhotoListActivity extends AppCompatActivity {
+public class PhotoListActivity extends AppCompatActivity implements OnThumbClickListener{
+    public static final int VERTICAL_SPAN_COUNT = 2;
+    public static final int HORIZONTAL_SPAN_COUNT = 1;
     @BindView(R.id.photos_recyclerView)
     RecyclerView photosRecyclerView;
 
-    RecyclerView.LayoutManager layoutManager;
+    GridLayoutManager photosLayoutManager;
     PhotoRecyclerViewAdapter adapter;
+    private List<Photo> photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_list);
         ButterKnife.bind(this);
-        layoutManager = new GridLayoutManager(this,2);
-        photosRecyclerView.setLayoutManager(layoutManager);
-        adapter = new PhotoRecyclerViewAdapter();
-        photosRecyclerView.setAdapter(adapter);
+        photosLayoutManager = new GridLayoutManager(this, VERTICAL_SPAN_COUNT);
+        photosRecyclerView.setLayoutManager(photosLayoutManager);
+
+        retrieveGalleryPhotos();
+    }
+
+    private void retrieveGalleryPhotos(){
         FlickrApi api = ApiCreator.getApiReference();
 
         final Call<PhotoListResponse> photoListCall = api.fetchRecentPhotos(1000, 1);
         photoListCall.enqueue(new Callback<PhotoListResponse>() {
             @Override
             public void onResponse(Call<PhotoListResponse> call, Response<PhotoListResponse> response) {
-                PhotoListResponse plr = response.body();
-                Log.d("" , "onResponse: ");
-
-                List<Photo> photos = plr.getPhotos();
-                adapter.setPhotos(photos);
-                adapter.notifyDataSetChanged();
-
+                PhotoListResponse photoListResponse = response.body();
+                photos = photoListResponse.getPhotos();
+                adapter = new PhotoRecyclerViewAdapter(photos,PhotoListActivity.this);
+                photosRecyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -60,5 +64,14 @@ public class PhotoListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onClickOnThumb(int photoIndex) {
+        Intent intent = new Intent(this,GalleryActivity.class);
+
+        Gson gson = new Gson();
+
+        intent.putExtra(GalleryActivity.EXTRA_PHOTOS,gson.toJson(photos));
+        intent.putExtra(GalleryActivity.EXTRA_SELECTED_INDEX,photoIndex);
+    }
 }
 

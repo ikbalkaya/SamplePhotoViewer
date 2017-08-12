@@ -1,5 +1,6 @@
 package ikbal.com.cookpadphotogallery;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,14 @@ import ikbal.com.cookpadphotogallery.model.Photo;
  */
 
 public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecyclerViewAdapter.PhotoViewHolder> {
-    //list photos dependency use dagger
     private List<Photo> photos;
+    private OnThumbClickListener listener;
 
-    public void setPhotos(List<Photo> photos) {
+    public PhotoRecyclerViewAdapter(List<Photo> photos, OnThumbClickListener listener) {
         this.photos = photos;
+        this.listener = listener;
     }
+
 
     @Override
     public int getItemCount() {
@@ -41,16 +44,24 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     }
 
     @Override
-    public void onBindViewHolder(PhotoViewHolder holder, int position) {
-        Photo photo = photos.get(position);
+    public void onBindViewHolder(PhotoViewHolder holder, final int position) {
+        final Photo photo = photos.get(position);
         Picasso.with(holder.itemView.getContext())
-                .load(photo.smallSizedUrl())
-                .into(holder.thumbImageView);
+                .load(photo.smallSizedPhotoUrl())
+                .into(holder.galleryImageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClickOnThumb(position);
+            }
+        });
+
     }
 
     static class PhotoViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.thumb_imageView)
-        ImageView thumbImageView;
+        @BindView(R.id.gallery_imageView)
+        ImageView galleryImageView;
         public PhotoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

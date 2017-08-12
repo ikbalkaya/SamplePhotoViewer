@@ -11,7 +11,7 @@ public class Photo {
 
 
     /*Max 240 on longest side, to show on gallery list */
-    public String smallSizedUrl(){
+    public String smallSizedPhotoUrl(){
         int farmId = 1;
         return String.format("https://farm%d.staticflickr.com/%s/%s_%s_m.jpg",farmId,this.server,this.id,this.secret);
     }

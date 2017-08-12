@@ -2,7 +2,6 @@ package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.BindView;
 import ikbal.com.cookpadphotogallery.model.Photo;
 
 /**
@@ -35,12 +33,16 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+        if(photos != null){
+            return photos.size();
+        }
         return 0;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return view == object;
+
     }
 
     @Override
@@ -55,7 +57,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
         //first put small image and replace when the original imag downloaded
         Picasso.with(activity)
-                .load(photos.get(position).smallSizedUrl())
+                .load(photos.get(position).smallSizedPhotoUrl())
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -71,7 +73,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
                     }
                 });
 
-        ((ViewPager) container).addView(viewLayout);
+        container.addView(viewLayout);
 
         return viewLayout;
     }
