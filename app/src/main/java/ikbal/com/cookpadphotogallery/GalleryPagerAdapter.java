@@ -2,6 +2,7 @@ package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -60,16 +61,16 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
         final ImageView originalImageView = (ImageView) viewLayout.findViewById(R.id.originalImageView);
 
+        ViewCompat.setTransitionName(originalImageView, photos.get(position).getId());
 
         Picasso.with(activity)
-                .load(photos.get(position).thumbUrl())
+                .load(photos.get(position).originalUrl())
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        //load original
-                        Picasso.with(activity)
-                                .load(photos.get(position).originalUrl())
-                                .into(originalImageView);
+
+                       // activity.supportStartPostponedEnterTransition();
+
                     }
 
                     @Override

@@ -9,15 +9,24 @@ public class Photo {
     private String secret;
     private String server;
 
-
-    /*large square 150x150*/
-    public String thumbUrl(){
-        int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_q.jpg",farmId,this.server,this.id,this.secret);
+    public String getId() {
+        return id;
     }
-    public String originalUrl(){
+
+    /**
+     * Photo size specs has been explained in the following link
+     * https://www.flickr.com/services/api/misc.urls.html
+     */
+
+    //large square 150x150
+    public String thumbUrl() {
         int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_b.jpg",farmId,this.server,this.id,this.secret);
+        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_q.jpg", farmId, this.server, this.id, this.secret);
+    }
+
+    public String originalUrl() {
+        int farmId = 1;
+        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_b.jpg", farmId, this.server, this.id, this.secret);
     }
     // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
 

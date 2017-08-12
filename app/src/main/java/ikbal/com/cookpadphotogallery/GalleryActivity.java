@@ -29,6 +29,7 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
+       // supportPostponeEnterTransition();
 
         ButterKnife.bind(this);
         String photosJson = getIntent().getStringExtra(EXTRA_PHOTOS);

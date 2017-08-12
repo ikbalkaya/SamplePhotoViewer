@@ -94,4 +94,6 @@
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="recent_photos_title">Recent Photos</string>
+    <string name="photo_transition_name">photo_transition</string>
 </resources>

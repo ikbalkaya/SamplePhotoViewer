@@ -1,16 +1,17 @@
 package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,18 +47,30 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     }
 
     @Override
-    public void onBindViewHolder(PhotoViewHolder holder, final int position) {
+    public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
 
         Picasso.with(context)
                 .load(photo.thumbUrl())
-                .into(holder.galleryImageView);
+                .into(holder.galleryImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.galleryImageProgressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
+
+        //setup shared element transition name
+        ViewCompat.setTransitionName(holder.galleryImageView, photo.getId());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClickOnThumb(position);
+                listener.onClickOnThumb(position, holder.galleryImageView);
             }
         });
 
@@ -66,6 +79,9 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     static class PhotoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.gallery_imageView)
         ImageView galleryImageView;
+
+        @BindView(R.id.gallery_image_progress)
+        ProgressBar galleryImageProgressBar;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);

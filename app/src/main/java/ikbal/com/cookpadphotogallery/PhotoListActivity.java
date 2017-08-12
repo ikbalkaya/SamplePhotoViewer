@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 
@@ -34,19 +36,44 @@ public class PhotoListActivity extends AppCompatActivity implements OnThumbClick
         photosLayoutManager = new GridLayoutManager(this, DisplayUtils.photoPerRow());
         photosRecyclerView.setLayoutManager(photosLayoutManager);
 
-        startPhotoCacheService();
+        if (savedInstanceState != null){
+            String photosJson = savedInstanceState.getString(PhotoCacheService.EXTRA_PHOTOS);
+            photos = PhotoSerializableUtils.photoListFromJson(photosJson);
+            loadDataIntoView();
+        }else{
+            startPhotoCacheService();
+        }
+
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(photos != null){
+            outState.putString(PhotoCacheService.EXTRA_PHOTOS, PhotoSerializableUtils.photoListToJson(photos));
+        }
+
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
-    public void onClickOnThumb(int photoIndex) {
+    public void onClickOnThumb(int photoIndex, ImageView imageView) {
         Intent intent = new Intent(this, GalleryActivity.class);
 
         Gson gson = new Gson();
 
         intent.putExtra(GalleryActivity.EXTRA_PHOTOS, gson.toJson(photos));
         intent.putExtra(GalleryActivity.EXTRA_SELECTED_INDEX, photoIndex);
-        startActivity(intent);
+
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this,imageView,getString(R.string.photo_transition_name));
+        startActivity(intent,options.toBundle());
+       // startActivity(intent);
+
+        /*
+        * ActivityOptionsCompat options = ActivityOptionsCompat.
+    makeSceneTransitionAnimation(this, (View)ivProfile, "profile");
+startActivity(intent, options.toBundle());
+        * */
     }
 
     private void startPhotoCacheService() {
@@ -73,11 +100,15 @@ public class PhotoListActivity extends AppCompatActivity implements OnThumbClick
             if (resultCode == PhotoCacheService.PHOTOS_RECEIVED_CODE) {
                 String photosJson = resultData.getString(PhotoCacheService.EXTRA_PHOTOS);
                 photos = PhotoSerializableUtils.photoListFromJson(photosJson);
-                adapter = new PhotoRecyclerViewAdapter(photos, PhotoListActivity.this);
-                photosRecyclerView.setAdapter(adapter);
+                loadDataIntoView();
             }
             super.onReceiveResult(resultCode, resultData);
         }
+    }
+
+    private void loadDataIntoView() {
+        adapter = new PhotoRecyclerViewAdapter(photos, PhotoListActivity.this);
+        photosRecyclerView.setAdapter(adapter);
     }
 }
 

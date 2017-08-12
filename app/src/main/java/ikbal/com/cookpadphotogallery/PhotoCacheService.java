@@ -18,7 +18,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by ikbal on 12/08/2017.
+ * This service will get the response from endpoint and followingly start to
+ * prefetch all the photos available in the response for a faster load of photos
  */
 
 public class PhotoCacheService extends IntentService{
@@ -58,7 +59,7 @@ public class PhotoCacheService extends IntentService{
             @Override
             public void onResponse(Call<PhotoListResponse> call, Response<PhotoListResponse> response) {
                 PhotoListResponse photoListResponse = response.body();
-                //let the receiver know that download is completed
+
                 Bundle extras = new Bundle();
                 extras.putString(EXTRA_PHOTOS, PhotoSerializableUtils.photoListToJson(photoListResponse.getPhotos()));
                 resultReceiver.send(PHOTOS_RECEIVED_CODE, extras);
