@@ -13,8 +13,7 @@ import ikbal.com.cookpadphotogallery.model.PhotoListResponse;
 /**
  * Created by ikbal on 11/08/2017.
  */
-
-public class PhotoListDeserializer implements JsonDeserializer<PhotoListResponse> {
+ class PhotoListDeserializer implements JsonDeserializer<PhotoListResponse> {
 
     @Override
     public PhotoListResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {

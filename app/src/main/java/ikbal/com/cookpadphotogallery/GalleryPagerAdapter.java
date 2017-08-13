@@ -69,8 +69,8 @@ public class GalleryPagerAdapter extends PagerAdapter {
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-
                         scheduleStartPostponedTransition(originalImageView);
+
                     }
 
                     @Override

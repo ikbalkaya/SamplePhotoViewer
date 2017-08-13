@@ -13,6 +13,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +27,8 @@ import ikbal.com.cookpadphotogallery.utils.DisplayUtils;
 public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecyclerViewAdapter.PhotoViewHolder> {
     private List<Photo> photos;
     private OnThumbClickListener listener;
+
+    private  WeakHashMap<String,ImageView> viewMapForSharedElements = new WeakHashMap<>();
 
     public GalleryRecyclerViewAdapter(List<Photo> photos, OnThumbClickListener listener) {
         this.photos = photos;
@@ -49,6 +52,9 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         return viewHolder;
     }
 
+    public View viewForSharedElementId(String id){
+        return viewMapForSharedElements.get(id);
+    }
     /*image size needs to be normalized to adapt the current screen */
     private void updateImageSize(ImageView imageView) {
         int calculatedDimension = DisplayUtils.thumbDimension();
@@ -65,7 +71,8 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
-
+        //add imageview to shared element map
+        viewMapForSharedElements.put(photo.getId(),holder.galleryImageView);
         Picasso.with(context)
                 .load(photo.thumbUrl())
                 .into(holder.galleryImageView, new Callback() {

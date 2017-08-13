@@ -1,5 +1,6 @@
 package ikbal.com.cookpadphotogallery.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -36,6 +37,8 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery_pager);
+
+        //postpone transition as the image load is asynchronous
         supportPostponeEnterTransition();
 
         ButterKnife.bind(this);
@@ -52,10 +55,12 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_SELECTED_INDEX,galleryPager.getCurrentItem());
+        setResult(RESULT_OK,intent);
+        super.finish();
     }
-
 
     @Override
     public void showItem(int position) {

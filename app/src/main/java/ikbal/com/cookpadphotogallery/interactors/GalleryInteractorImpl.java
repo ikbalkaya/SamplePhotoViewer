@@ -2,6 +2,8 @@ package ikbal.com.cookpadphotogallery.interactors;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,10 +12,6 @@ import java.util.List;
 import ikbal.com.cookpadphotogallery.services.PhotoCacheService;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
-
-/**
- * Created by ikbal on 13/08/2017.
- */
 
 public class GalleryInteractorImpl implements GalleryInteractor {
     @Override
@@ -24,6 +22,11 @@ public class GalleryInteractorImpl implements GalleryInteractor {
         activity.startService(photoCacheServiceIntent);
     }
 
+    /**
+     * This class has been implemented to act as a bridge between intent service
+     * and the activity called it. interaction listener has been delegated to this class
+     * as it's responsible for any message coming from intent service
+     * */
     private class ThumbCacheResultReceiver extends ResultReceiver {
         /**
          * Create a new ResultReceive to receive results.  Your
@@ -34,7 +37,7 @@ public class GalleryInteractorImpl implements GalleryInteractor {
          */
         GalleryListInteractorListener listener;
         ThumbCacheResultReceiver(GalleryInteractor.GalleryListInteractorListener listener) {
-            super(null);
+            super(new Handler(Looper.getMainLooper()));
             this.listener = listener;
         }
 

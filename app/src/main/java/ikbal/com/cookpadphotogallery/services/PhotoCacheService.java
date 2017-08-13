@@ -21,8 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * This service will get the response from endpoint and followingly start to
- * prefetch all the photos available in the response for a faster load of photos
+ * This intent service has been created to get photo response from endpoint and
+ * prefetch all the photos available in the response for a faster load of photos later
+ * Picasso will then handle loading cached photos
  */
 
 public class PhotoCacheService extends IntentService{
@@ -37,18 +38,16 @@ public class PhotoCacheService extends IntentService{
 
     private ResultReceiver resultReceiver;
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
+
     public PhotoCacheService() {
         super("PhotoCacheService");
     }
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        resultReceiver = intent.getParcelableExtra(EXTRA_RECEIVER);
+        if (intent != null) {
+            resultReceiver = intent.getParcelableExtra(EXTRA_RECEIVER);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -73,7 +72,10 @@ public class PhotoCacheService extends IntentService{
                 Bundle receiverExtras = new Bundle();
                 receiverExtras.putString(EXTRA_PHOTOS, PhotoSerializableUtils.photoListToJson(photoListResponse.getPhotos()));
                //let the receiver know about list of photos before they start to being cached
-                resultReceiver.send(PHOTOS_RECEIVED_CODE, receiverExtras);
+                if (resultReceiver != null){
+                    resultReceiver.send(PHOTOS_RECEIVED_CODE, receiverExtras);
+                }
+
                 for(Photo photo : photoListResponse.getPhotos()){
                     downloadPhoto(photo);
                 }
@@ -88,7 +90,10 @@ public class PhotoCacheService extends IntentService{
     private void sendFailureMessage(String failure){
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_FAIL_MESSAGE,failure);
-        resultReceiver.send(PHOTOS_RECEIVED_FAILED_CODE, bundle);
+        if (resultReceiver != null){
+            resultReceiver.send(PHOTOS_RECEIVED_FAILED_CODE, bundle);
+        }
+
     }
     private void downloadPhoto(final Photo photo){
         Picasso.with(this)
