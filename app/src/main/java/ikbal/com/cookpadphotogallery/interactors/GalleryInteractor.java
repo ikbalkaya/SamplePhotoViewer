@@ -11,7 +11,7 @@ import ikbal.com.cookpadphotogallery.model.Photo;
  */
 
 public interface GalleryInteractor {
-    void startLoadingImages(AppCompatActivity activity,GalleryInteractor.GalleryListInteractorListener listener);
+    void fetchImages(AppCompatActivity activity, GalleryInteractor.GalleryListInteractorListener listener);
 
     interface GalleryListInteractorListener{
         void onRetrievedPhotos(List<Photo> photoList);

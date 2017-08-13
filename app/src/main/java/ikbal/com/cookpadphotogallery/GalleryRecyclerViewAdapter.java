@@ -1,7 +1,6 @@
 package ikbal.com.cookpadphotogallery;
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,11 +23,11 @@ import ikbal.com.cookpadphotogallery.utils.DisplayUtils;
  * Created by ikbal on 11/08/2017.
  */
 
-public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecyclerViewAdapter.PhotoViewHolder> {
+public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecyclerViewAdapter.PhotoViewHolder> {
     private List<Photo> photos;
     private OnThumbClickListener listener;
 
-    public PhotoRecyclerViewAdapter(List<Photo> photos, OnThumbClickListener listener) {
+    public GalleryRecyclerViewAdapter(List<Photo> photos, OnThumbClickListener listener) {
         this.photos = photos;
         this.listener = listener;
     }

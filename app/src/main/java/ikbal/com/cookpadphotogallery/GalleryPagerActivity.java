@@ -16,38 +16,52 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ikbal.com.cookpadphotogallery.model.Photo;
+import ikbal.com.cookpadphotogallery.presenters.GalleryPagerPresenter;
+import ikbal.com.cookpadphotogallery.presenters.GalleryPagerPresenterImpl;
+import ikbal.com.cookpadphotogallery.view.GalleryPagerView;
 
 /**
  * Created by ikbal on 12/08/2017.
  */
 
-public class GalleryPagerActivity extends AppCompatActivity {
+public class GalleryPagerActivity extends AppCompatActivity implements GalleryPagerView{
     public static final String EXTRA_PHOTOS = "EXTRA_PHOTOS";
     public static final String EXTRA_SELECTED_INDEX = "EXTRA_SELECTED_INDEX";
     @BindView(R.id.gallery_pager)
     ViewPager galleryPager;
 
+    private GalleryPagerPresenter presenter;
+    private List<Photo> photos;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
-       supportPostponeEnterTransition();
-       //  postponeEnterTransition();
+        supportPostponeEnterTransition();
+
         ButterKnife.bind(this);
+        presenter = new GalleryPagerPresenterImpl(this);
+
         String photosJson = getIntent().getStringExtra(EXTRA_PHOTOS);
-        if (photosJson != null){
+        if (photosJson != null) {
             Gson gson = new Gson();
-            List<Photo> photos = gson.fromJson(photosJson, new TypeToken<List<Photo>>(){}.getType());
-            int selectedIndex = getIntent().getIntExtra(EXTRA_SELECTED_INDEX,0);
-            GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this,photos);
-            galleryPager.setAdapter(pagerAdapter);
-            galleryPager.setCurrentItem(selectedIndex);
+            photos = gson.fromJson(photosJson, new TypeToken<List<Photo>>() {
+            }.getType());
+            int selectedIndex = getIntent().getIntExtra(EXTRA_SELECTED_INDEX, 0);
+            presenter.loadPhoto(selectedIndex);
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    @Override
+    public void showItem(int position) {
+        GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, photos);
+        galleryPager.setAdapter(pagerAdapter);
+        galleryPager.setCurrentItem(position);
     }
 }

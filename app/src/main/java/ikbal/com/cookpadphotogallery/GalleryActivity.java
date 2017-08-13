@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPresenter;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPresenterImpl;
+import ikbal.com.cookpadphotogallery.services.PhotoCacheService;
 import ikbal.com.cookpadphotogallery.view.GalleryView;
 import ikbal.com.cookpadphotogallery.utils.DisplayUtils;
 import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
@@ -39,7 +40,7 @@ public class GalleryActivity extends AppCompatActivity
     ProgressBar loadingProgressBar;
 
     GridLayoutManager photosLayoutManager;
-    PhotoRecyclerViewAdapter adapter;
+    GalleryRecyclerViewAdapter adapter;
     private List<Photo> photos;
 
     private GalleryPresenter presenter;
@@ -54,16 +55,14 @@ public class GalleryActivity extends AppCompatActivity
         photosRecyclerView.setLayoutManager(photosLayoutManager);
 
         presenter = new GalleryPresenterImpl(this);
-        presenter.loadImages(this);
-        /**
+
         if (savedInstanceState != null) {
             String photosJson = savedInstanceState.getString(PhotoCacheService.EXTRA_PHOTOS);
             photos = PhotoSerializableUtils.photoListFromJson(photosJson);
             loadDataIntoView();
         } else {
-            startPhotoCacheService();
+            presenter.loadImages(this);
         }
-   */
     }
 
     @Override
@@ -85,7 +84,7 @@ public class GalleryActivity extends AppCompatActivity
                     @Override
                     public void onSuccess() {
                         progressBar.setVisibility(View.GONE);
-                        navigateToGalleryActivity(photoIndex, imageView);
+                        navigateToPager(photoIndex, imageView);
                     }
 
                     @Override
@@ -97,7 +96,7 @@ public class GalleryActivity extends AppCompatActivity
 
     }
 
-    private void navigateToGalleryActivity(int photoIndex, ImageView imageView) {
+    private void navigateToPager(int photoIndex, ImageView imageView) {
         Intent intent = new Intent(this, GalleryPagerActivity.class);
 
         Gson gson = new Gson();
@@ -111,7 +110,7 @@ public class GalleryActivity extends AppCompatActivity
 
 
     private void loadDataIntoView() {
-        adapter = new PhotoRecyclerViewAdapter(photos, GalleryActivity.this);
+        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
         photosRecyclerView.setAdapter(adapter);
     }
 

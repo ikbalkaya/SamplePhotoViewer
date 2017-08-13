@@ -7,8 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-import ikbal.com.cookpadphotogallery.PhotoCacheService;
-import ikbal.com.cookpadphotogallery.interactors.GalleryInteractor;
+import ikbal.com.cookpadphotogallery.services.PhotoCacheService;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
 
@@ -18,7 +17,7 @@ import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
 
 public class GalleryInteractorImpl implements GalleryInteractor {
     @Override
-    public void startLoadingImages(AppCompatActivity activity,GalleryInteractor.GalleryListInteractorListener listener) {
+    public void fetchImages(AppCompatActivity activity, GalleryInteractor.GalleryListInteractorListener listener) {
         Intent photoCacheServiceIntent = new Intent(activity, PhotoCacheService.class);
         ThumbCacheResultReceiver resultReceiver = new ThumbCacheResultReceiver(listener);
         photoCacheServiceIntent.putExtra(PhotoCacheService.EXTRA_RECEIVER, resultReceiver);

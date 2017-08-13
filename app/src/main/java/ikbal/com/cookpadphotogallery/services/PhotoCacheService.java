@@ -1,4 +1,4 @@
-package ikbal.com.cookpadphotogallery;
+package ikbal.com.cookpadphotogallery.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -8,9 +8,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import ikbal.com.cookpadphotogallery.api.ApiCreator;
 import ikbal.com.cookpadphotogallery.api.FlickrApi;

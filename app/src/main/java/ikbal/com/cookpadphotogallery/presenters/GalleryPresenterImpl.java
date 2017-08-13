@@ -28,7 +28,7 @@ public class GalleryPresenterImpl implements GalleryPresenter,
       if (galleryView != null){
           galleryView.showProgress();
       }
-      this.galleryInteractor.startLoadingImages(activity,this);
+      this.galleryInteractor.fetchImages(activity,this);
     }
 
 
