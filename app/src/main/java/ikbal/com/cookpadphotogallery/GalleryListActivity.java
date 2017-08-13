@@ -33,6 +33,9 @@ public class GalleryListActivity extends AppCompatActivity implements OnThumbCli
     @BindView(R.id.empty_textView)
     TextView emptyTextView;
 
+    @BindView(R.id.images_loading_progressBar)
+    ProgressBar loadingProgressBar;
+
     GridLayoutManager photosLayoutManager;
     PhotoRecyclerViewAdapter adapter;
     private List<Photo> photos;
@@ -66,7 +69,7 @@ public class GalleryListActivity extends AppCompatActivity implements OnThumbCli
     }
 
     @Override
-    public void onClickOnThumb(final int photoIndex,final  ImageView imageView, final ProgressBar progressBar) {
+    public void onClickOnThumb(final int photoIndex, final ImageView imageView, final ProgressBar progressBar) {
         //fetch image before going to next acitivity
         progressBar.setVisibility(View.VISIBLE);
         Picasso.with(this)
@@ -100,6 +103,7 @@ public class GalleryListActivity extends AppCompatActivity implements OnThumbCli
     }
 
     private void startPhotoCacheService() {
+        loadingProgressBar.setVisibility(View.VISIBLE);
         Intent photoCacheServiceIntent = new Intent(this, PhotoCacheService.class);
         ThumbCacheResultReceiver resultReceiver = new ThumbCacheResultReceiver(null);
         photoCacheServiceIntent.putExtra(PhotoCacheService.EXTRA_RECEIVER, resultReceiver);
@@ -125,11 +129,12 @@ public class GalleryListActivity extends AppCompatActivity implements OnThumbCli
                 photos = PhotoSerializableUtils.photoListFromJson(photosJson);
                 emptyTextView.setVisibility(View.GONE);
                 loadDataIntoView();
-            }else if(resultCode == PhotoCacheService.PHOTOS_RECEIVED_FAILED_CODE){
+            } else if (resultCode == PhotoCacheService.PHOTOS_RECEIVED_FAILED_CODE) {
                 String error = resultData.getString(PhotoCacheService.EXTRA_FAIL_MESSAGE);
                 Toast.makeText(GalleryListActivity.this, error, Toast.LENGTH_SHORT).show();
                 emptyTextView.setVisibility(View.VISIBLE);
             }
+            loadingProgressBar.setVisibility(View.GONE);
             super.onReceiveResult(resultCode, resultData);
         }
     }

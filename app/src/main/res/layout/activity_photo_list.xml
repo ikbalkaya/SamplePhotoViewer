@@ -20,6 +20,13 @@
             android:visibility="gone"
             tools:visibility="visible"
             android:layout_gravity="center"/>
+    <ProgressBar
+        android:id="@+id/images_loading_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:visibility="visible"
+        android:visibility="gone"/>
 
 </FrameLayout>
 
