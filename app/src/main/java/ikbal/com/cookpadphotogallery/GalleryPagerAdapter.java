@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,6 @@ import ikbal.com.cookpadphotogallery.model.Photo;
  */
 
 public class GalleryPagerAdapter extends PagerAdapter {
-
-    private LayoutInflater layoutInflater;
     private AppCompatActivity activity;
     private List<Photo> photos;
 
@@ -55,7 +54,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        layoutInflater = (LayoutInflater) activity
+        LayoutInflater layoutInflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View viewLayout = layoutInflater.inflate(R.layout.layout_gallery, container,
@@ -63,14 +62,13 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
         final ImageView originalImageView = (ImageView) viewLayout.findViewById(R.id.originalImageView);
         ViewCompat.setTransitionName(originalImageView, photos.get(position).getId());
-
+        Log.d("photoUrl", "instantiateItem: "+photos.get(position).originalUrl());
         Picasso.with(activity)
                 .load(photos.get(position).originalUrl())
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
                         scheduleStartPostponedTransition(originalImageView);
-
                     }
 
                     @Override

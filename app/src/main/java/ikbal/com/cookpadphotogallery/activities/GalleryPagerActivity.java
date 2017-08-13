@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -54,18 +55,20 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
         }
     }
 
-    @Override
-    public void finish() {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_SELECTED_INDEX,galleryPager.getCurrentItem());
-        setResult(RESULT_OK,intent);
-        super.finish();
-    }
+
 
     @Override
     public void showItem(int position) {
         GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, photos);
         galleryPager.setAdapter(pagerAdapter);
         galleryPager.setCurrentItem(position);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_SELECTED_INDEX,galleryPager.getCurrentItem());
+        setResult(RESULT_OK,intent);
+        super.onBackPressed();
     }
 }

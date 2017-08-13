@@ -7,18 +7,12 @@ import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +91,7 @@ public class GalleryActivity extends AppCompatActivity
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
                 View view = adapter.viewForSharedElementId(photo.getId());
                 sharedElements.put(photo.getId(),view);
+
             }
         });
     }
@@ -121,7 +116,7 @@ public class GalleryActivity extends AppCompatActivity
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageView, transitionName);
 
-        startActivity(intent, options.toBundle());
+       // startActivity(intent, options.toBundle());
         //
         startActivityForResult(intent, PAGER_REQUEST_CODE, options.toBundle());
     }
