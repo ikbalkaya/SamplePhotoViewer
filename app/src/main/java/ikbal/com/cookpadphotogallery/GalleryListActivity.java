@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -28,6 +29,9 @@ import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
 public class GalleryListActivity extends AppCompatActivity implements OnThumbClickListener {
     @BindView(R.id.photos_recyclerView)
     RecyclerView photosRecyclerView;
+
+    @BindView(R.id.empty_textView)
+    TextView emptyTextView;
 
     GridLayoutManager photosLayoutManager;
     PhotoRecyclerViewAdapter adapter;
@@ -119,7 +123,12 @@ public class GalleryListActivity extends AppCompatActivity implements OnThumbCli
             if (resultCode == PhotoCacheService.PHOTOS_RECEIVED_CODE) {
                 String photosJson = resultData.getString(PhotoCacheService.EXTRA_PHOTOS);
                 photos = PhotoSerializableUtils.photoListFromJson(photosJson);
+                emptyTextView.setVisibility(View.GONE);
                 loadDataIntoView();
+            }else if(resultCode == PhotoCacheService.PHOTOS_RECEIVED_FAILED_CODE){
+                String error = resultData.getString(PhotoCacheService.EXTRA_FAIL_MESSAGE);
+                Toast.makeText(GalleryListActivity.this, error, Toast.LENGTH_SHORT).show();
+                emptyTextView.setVisibility(View.VISIBLE);
             }
             super.onReceiveResult(resultCode, resultData);
         }

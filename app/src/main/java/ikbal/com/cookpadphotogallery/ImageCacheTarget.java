@@ -31,7 +31,7 @@ public class ImageCacheTarget implements Target {
             @Override
             public void run() {
 
-                File file = new File(Environment.getDataDirectory()+ "/imagecache/" + url);
+                File file = new File(Environment.getDataDirectory()+ "/imagecache/" + url.hashCode()+".jpg");
                 try {
                     file.createNewFile();
                     FileOutputStream ostream = new FileOutputStream(file);
@@ -47,11 +47,11 @@ public class ImageCacheTarget implements Target {
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
-
+        Log.d("", "onBitmapFailed: ");
     }
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+        Log.d("", "onPrepareLoad: ");
     }
 }

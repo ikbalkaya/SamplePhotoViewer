@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -51,9 +50,10 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
         updateImageSize(viewHolder.galleryImageView);
         return viewHolder;
     }
+
     /*image size needs to be normalized to adapt the current screen */
-    private void updateImageSize(ImageView imageView){
-        int calculatedDimension =DisplayUtils.thumbDimension();
+    private void updateImageSize(ImageView imageView) {
+        int calculatedDimension = DisplayUtils.thumbDimension();
 
         ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
         layoutParams.height = calculatedDimension;//same as width
@@ -62,44 +62,26 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
         imageView.setLayoutParams(layoutParams);
 
     }
+
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
 
-        File file = new File(Environment.getDataDirectory()+ "/imagecache/" + photos.get(position).thumbUrl());
-        if (file.exists()){
-            Picasso.with(context)
-                    .load(file)
-                    .into(holder.galleryImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.galleryImageProgressBar.setVisibility(View.GONE);
-                        }
+        Picasso.with(context)
+                .load(photo.thumbUrl())
+                .into(holder.galleryImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.galleryImageProgressBar.setVisibility(View.GONE);
+                    }
 
-                        @Override
-                        public void onError() {
-                            holder.galleryImageProgressBar.setVisibility(View.GONE);
-                            holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
-                        }
-                    });
-        }else{
-            Picasso.with(context)
-                    .load(photo.thumbUrl())
-                    .into(holder.galleryImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.galleryImageProgressBar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            holder.galleryImageProgressBar.setVisibility(View.GONE);
-                            holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
-                        }
-                    });
-        }
-
+                    @Override
+                    public void onError() {
+                        holder.galleryImageProgressBar.setVisibility(View.GONE);
+                        holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
+                    }
+                });
 
         //setup shared element transition name
         ViewCompat.setTransitionName(holder.galleryImageView, photo.getId());

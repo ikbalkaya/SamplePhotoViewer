@@ -96,4 +96,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="recent_photos_title">Recent Photos</string>
     <string name="photo_transition_name">photo_transition</string>
+    <string name="no_image_available">No image available</string>
 </resources>

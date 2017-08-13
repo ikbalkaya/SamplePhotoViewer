@@ -7,8 +7,10 @@ import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ikbal.com.cookpadphotogallery.api.ApiCreator;
 import ikbal.com.cookpadphotogallery.api.FlickrApi;
@@ -64,9 +66,10 @@ public class PhotoCacheService extends IntentService{
             public void onResponse(Call<PhotoListResponse> call, Response<PhotoListResponse> response) {
                 PhotoListResponse photoListResponse = response.body();
 
-                Bundle extras = new Bundle();
-                extras.putString(EXTRA_PHOTOS, PhotoSerializableUtils.photoListToJson(photoListResponse.getPhotos()));
-                resultReceiver.send(PHOTOS_RECEIVED_CODE, extras);
+                Bundle receiverExtras = new Bundle();
+                receiverExtras.putString(EXTRA_PHOTOS, PhotoSerializableUtils.photoListToJson(photoListResponse.getPhotos()));
+               //let the receiver know about list of photos before they start to being cached
+                resultReceiver.send(PHOTOS_RECEIVED_CODE, receiverExtras);
                 for(Photo photo : photoListResponse.getPhotos()){
                     downloadPhoto(photo);
                 }
@@ -81,23 +84,19 @@ public class PhotoCacheService extends IntentService{
         });
     }
     private void downloadPhoto(final Photo photo){
-        /**
         Picasso.with(this)
                 .load(photo.thumbUrl())
                 .fetch(new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.d(TAG, "onSuccess: "+photo.getId());
+                        Log.d(TAG, "onSuccess: "+photo.thumbUrl());
                     }
 
                     @Override
                     public void onError() {
-                        Log.e(TAG, "onError: "+photo.getId());
+                        Log.e(TAG, "onError:"+photo.thumbUrl());
                     }
                 });
-         */
-        Picasso.with(this)
-                .load(photo.thumbUrl())
-                .into(new ImageCacheTarget(photo.thumbUrl()));
+
     }
 }
