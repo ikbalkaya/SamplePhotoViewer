@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import ikbal.com.cookpadphotogallery.GalleryActivity;
 import ikbal.com.cookpadphotogallery.model.Photo;
 
 /**
