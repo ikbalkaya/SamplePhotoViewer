@@ -9,10 +9,12 @@ import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
+import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.api.ApiCreator;
 import ikbal.com.cookpadphotogallery.api.FlickrApi;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.model.PhotoListResponse;
+import ikbal.com.cookpadphotogallery.utils.ConnectivityUtil;
 import ikbal.com.cookpadphotogallery.utils.PhotoSerializableUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +54,12 @@ public class PhotoCacheService extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-       retrieveGalleryPhotos();
+        if(ConnectivityUtil.isNetworkAvailable(this)){
+            retrieveGalleryPhotos();
+        }else {
+            sendFailureMessage(getString(R.string.network_not_connected_message));
+        }
+
     }
     private void retrieveGalleryPhotos(){
         FlickrApi api = ApiCreator.getApiReference();
@@ -74,11 +81,14 @@ public class PhotoCacheService extends IntentService{
 
             @Override
             public void onFailure(Call<PhotoListResponse> call, Throwable t) {
-                Bundle bundle = new Bundle();
-                bundle.putString(EXTRA_FAIL_MESSAGE,t.getLocalizedMessage());
-                resultReceiver.send(PHOTOS_RECEIVED_FAILED_CODE, bundle);
+                sendFailureMessage(t.getLocalizedMessage());
             }
         });
+    }
+    private void sendFailureMessage(String failure){
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_FAIL_MESSAGE,failure);
+        resultReceiver.send(PHOTOS_RECEIVED_FAILED_CODE, bundle);
     }
     private void downloadPhoto(final Photo photo){
         Picasso.with(this)

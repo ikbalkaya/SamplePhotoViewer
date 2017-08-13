@@ -1,13 +1,15 @@
-package ikbal.com.cookpadphotogallery;
+package ikbal.com.cookpadphotogallery.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import ikbal.com.cookpadphotogallery.GalleryRecyclerViewAdapter;
+import ikbal.com.cookpadphotogallery.OnThumbClickListener;
+import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPresenter;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPresenterImpl;
@@ -33,8 +39,8 @@ public class GalleryActivity extends AppCompatActivity
     @BindView(R.id.photos_recyclerView)
     RecyclerView photosRecyclerView;
 
-    @BindView(R.id.empty_textView)
-    TextView emptyTextView;
+    @BindView(R.id.empty_view)
+    LinearLayout emptyView;
 
     @BindView(R.id.images_loading_progressBar)
     ProgressBar loadingProgressBar;
@@ -48,7 +54,7 @@ public class GalleryActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_list);
+        setContentView(R.layout.activity_gallery);
         ButterKnife.bind(this);
         photosLayoutManager = new GridLayoutManager(this, DisplayUtils.photoPerRow());
 
@@ -72,6 +78,10 @@ public class GalleryActivity extends AppCompatActivity
         }
 
         super.onSaveInstanceState(outState);
+    }
+    @OnClick(R.id.refresh_button)
+    public void refresh(View view) {
+        presenter.loadImages(this);
     }
 
     @Override
@@ -132,7 +142,12 @@ public class GalleryActivity extends AppCompatActivity
 
     @Override
     public void showNoItem() {
-        emptyTextView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoItem() {
+        emptyView.setVisibility(View.GONE);
     }
 }
 

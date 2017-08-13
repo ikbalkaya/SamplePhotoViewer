@@ -14,7 +14,7 @@ public interface GalleryInteractor {
     void fetchImages(AppCompatActivity activity, GalleryInteractor.GalleryListInteractorListener listener);
 
     interface GalleryListInteractorListener{
-        void onRetrievedPhotos(List<Photo> photoList);
+        void onPhotosRetrieved(List<Photo> photoList);
         void onErrorRetrievingPhotos(String errorString);
     }
 }

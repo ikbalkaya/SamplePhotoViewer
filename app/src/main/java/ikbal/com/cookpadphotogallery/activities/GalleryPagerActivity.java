@@ -1,10 +1,7 @@
-package ikbal.com.cookpadphotogallery;
+package ikbal.com.cookpadphotogallery.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,6 +12,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ikbal.com.cookpadphotogallery.GalleryPagerAdapter;
+import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPagerPresenter;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPagerPresenterImpl;
@@ -36,7 +35,7 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_gallery);
+        setContentView(R.layout.activity_gallery_pager);
         supportPostponeEnterTransition();
 
         ButterKnife.bind(this);

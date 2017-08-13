@@ -97,4 +97,6 @@
     <string name="recent_photos_title">Recent Photos</string>
     <string name="photo_transition_name">photo_transition</string>
     <string name="no_image_available">No image available</string>
+    <string name="refresh">Refresh</string>
+    <string name="network_not_connected_message">Network connection is not available</string>
 </resources>

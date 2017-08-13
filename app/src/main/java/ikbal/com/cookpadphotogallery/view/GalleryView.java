@@ -13,4 +13,5 @@ public interface GalleryView {
     void hideProgress();
     void showList(List<Photo> photoList);
     void showNoItem();
+    void hideNoItem();
 }

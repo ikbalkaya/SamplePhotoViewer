@@ -43,7 +43,7 @@ public class GalleryInteractorImpl implements GalleryInteractor {
             if (resultCode == PhotoCacheService.PHOTOS_RECEIVED_CODE) {
                 String photosJson = resultData.getString(PhotoCacheService.EXTRA_PHOTOS);
                 final List<Photo> photos = PhotoSerializableUtils.photoListFromJson(photosJson);
-                listener.onRetrievedPhotos(photos);
+                listener.onPhotosRetrieved(photos);
             } else if (resultCode == PhotoCacheService.PHOTOS_RECEIVED_FAILED_CODE) {
                 String error = resultData.getString(PhotoCacheService.EXTRA_FAIL_MESSAGE);
                 listener.onErrorRetrievingPhotos(error);
