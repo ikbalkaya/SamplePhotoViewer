@@ -84,7 +84,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
                     @Override
                     public void onError() {
                         holder.galleryImageProgressBar.setVisibility(View.GONE);
-                        holder.galleryImageView.setImageResource(R.drawable.no_picture_available);
+                        holder.galleryImageView.setImageResource(R.drawable.no_image_available);
                     }
                 });
 

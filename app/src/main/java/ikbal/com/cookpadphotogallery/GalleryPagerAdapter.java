@@ -73,7 +73,7 @@ public class GalleryPagerAdapter extends PagerAdapter {
 
                     @Override
                     public void onError() {
-                        originalImageView.setImageResource(R.drawable.no_picture_available);
+                        originalImageView.setImageResource(R.drawable.no_image_available);
                         scheduleStartPostponedTransition(originalImageView);
                     }
                 });

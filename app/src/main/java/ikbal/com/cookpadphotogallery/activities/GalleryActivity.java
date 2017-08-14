@@ -7,6 +7,9 @@ import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +50,8 @@ public class GalleryActivity extends AppCompatActivity
     private List<Photo> photos;
 
     private GalleryPresenter presenter;
+    private MenuItem refreshMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,26 @@ public class GalleryActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gallery, menu);
+        refreshMenuItem = menu.getItem(0);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_refresh){
+            //reload evertthing
+            presenter.loadImages(this);
+        }
+        return true;
+    }
+
     /**
      * https://youtu.be/4L4fLrWDvAU?t=1964
      * */
@@ -96,8 +121,8 @@ public class GalleryActivity extends AppCompatActivity
         });
     }
 
-    @OnClick(R.id.refresh_button)
-    public void refresh(View view) {
+    @OnClick(R.id.retry_button)
+    public void retry(View view) {
         presenter.loadImages(this);
     }
 
@@ -129,6 +154,9 @@ public class GalleryActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
+        if(refreshMenuItem != null){
+            refreshMenuItem.setEnabled(false);
+        }
         loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
@@ -139,12 +167,20 @@ public class GalleryActivity extends AppCompatActivity
 
     @Override
     public void showList(List<Photo> photoList) {
+        if(refreshMenuItem != null){
+            refreshMenuItem.setEnabled(true);
+        }
+
         this.photos = photoList;
         loadGalleryImages();
     }
 
     @Override
     public void showNoItem() {
+        if(refreshMenuItem != null){
+            refreshMenuItem.setEnabled(false);
+        }
+
         emptyView.setVisibility(View.VISIBLE);
     }
 

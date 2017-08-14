@@ -18,3 +18,4 @@ public interface GalleryInteractor {
         void onErrorRetrievingPhotos(String errorString);
     }
 }
+
