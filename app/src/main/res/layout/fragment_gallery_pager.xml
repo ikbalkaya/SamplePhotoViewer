@@ -7,6 +7,7 @@
 <com.github.chrisbanes.photoview.PhotoView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:src="@drawable/no_image_available"
     android:id="@+id/originalImageView"/>
     <ProgressBar
         android:id="@+id/pager_progress_bar"

@@ -26,7 +26,7 @@ public class Photo {
         return String.format("https://farm%s.staticflickr.com/%s/%s_%s_n.jpg", this.farm, this.server, this.id, this.secret);
     }
 //big image url
-    public String originalUrl() {
+    public String bigImageUrl() {
         return String.format("https://farm%s.staticflickr.com/%s/%s_%s_b.jpg", this.farm, this.server, this.id, this.secret);
     }
 }
