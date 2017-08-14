@@ -1,4 +1,4 @@
-package ikbal.com.cookpadphotogallery;
+package ikbal.com.cookpadphotogallery.adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -11,17 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.model.Photo;
 
-/**
- * Created by ikbal on 11/08/2017.
- */
 
 public class GalleryPagerAdapter extends PagerAdapter {
     private AppCompatActivity activity;
@@ -57,10 +56,12 @@ public class GalleryPagerAdapter extends PagerAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View viewLayout = layoutInflater.inflate(R.layout.layout_gallery, container,
+        View viewLayout = layoutInflater.inflate(R.layout.layout_gallery_pager, container,
                 false);
 
         final ImageView originalImageView = (ImageView) viewLayout.findViewById(R.id.originalImageView);
+        final ProgressBar progressBar = (ProgressBar) viewLayout.findViewById(R.id.pager_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
         ViewCompat.setTransitionName(originalImageView, photos.get(position).getId());
         Log.d("photoUrl", "instantiateItem: "+photos.get(position).originalUrl());
         Picasso.with(activity)
@@ -68,12 +69,14 @@ public class GalleryPagerAdapter extends PagerAdapter {
                 .into(originalImageView, new Callback() {
                     @Override
                     public void onSuccess() {
+                        progressBar.setVisibility(View.GONE);
                         scheduleStartPostponedTransition(originalImageView);
                     }
 
                     @Override
                     public void onError() {
                         originalImageView.setImageResource(R.drawable.no_image_available);
+                        progressBar.setVisibility(View.GONE);
                         scheduleStartPostponedTransition(originalImageView);
                     }
                 });

@@ -23,7 +23,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ikbal.com.cookpadphotogallery.GalleryRecyclerViewAdapter;
+import ikbal.com.cookpadphotogallery.adapters.GalleryRecyclerViewAdapter;
 import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.presenters.GalleryPresenter;
@@ -73,7 +73,7 @@ public class GalleryActivity extends AppCompatActivity
             photos = PhotoSerializableUtils.photoListFromJson(photosJson);
             loadGalleryImages();
         } else {
-            presenter.loadImages(this);
+            presenter.loadPhotoList(this);
         }
         //set refresh listener
         gallerySwipeRefreshLayout.setOnRefreshListener(this);
@@ -112,7 +112,7 @@ public class GalleryActivity extends AppCompatActivity
 
     @OnClick(R.id.retry_button)
     public void retry(View view) {
-        presenter.loadImages(this);
+        presenter.loadPhotoList(this);
     }
 
     @Override
@@ -129,8 +129,7 @@ public class GalleryActivity extends AppCompatActivity
     }
 
     private void loadGalleryImages() {
-        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
-        photosRecyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -146,7 +145,8 @@ public class GalleryActivity extends AppCompatActivity
     @Override
     public void showList(List<Photo> photoList) {
         this.photos = photoList;
-        loadGalleryImages();
+        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
+        photosRecyclerView.setAdapter(adapter);
 
         //also cancel refreshing
         gallerySwipeRefreshLayout.setRefreshing(false);
@@ -168,7 +168,7 @@ public class GalleryActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-        presenter.loadImages(this);
+        presenter.refreshPhotoList(this);
     }
 }
 

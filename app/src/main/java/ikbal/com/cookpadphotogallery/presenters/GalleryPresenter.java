@@ -7,5 +7,6 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public interface GalleryPresenter {
-    void loadImages(AppCompatActivity activity);
+    void loadPhotoList(AppCompatActivity activity);//activity is given to start intent service
+    void refreshPhotoList(AppCompatActivity activity);
 }

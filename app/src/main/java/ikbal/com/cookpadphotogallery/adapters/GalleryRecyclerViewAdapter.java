@@ -1,4 +1,4 @@
-package ikbal.com.cookpadphotogallery;
+package ikbal.com.cookpadphotogallery.adapters;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
@@ -17,12 +17,10 @@ import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ikbal.com.cookpadphotogallery.R;
 import ikbal.com.cookpadphotogallery.model.Photo;
 import ikbal.com.cookpadphotogallery.utils.DisplayUtils;
 
-/**
- * Created by ikbal on 11/08/2017.
- */
 
 public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecyclerViewAdapter.PhotoViewHolder> {
     private List<Photo> photos;

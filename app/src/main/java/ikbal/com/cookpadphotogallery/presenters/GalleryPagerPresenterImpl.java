@@ -1,6 +1,5 @@
 package ikbal.com.cookpadphotogallery.presenters;
 
-import ikbal.com.cookpadphotogallery.GalleryPagerAdapter;
 import ikbal.com.cookpadphotogallery.view.GalleryPagerView;
 
 /**

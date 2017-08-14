@@ -16,6 +16,7 @@ import ikbal.com.cookpadphotogallery.view.GalleryView;
 public class GalleryPresenterImpl implements GalleryPresenter,
         GalleryInteractor.GalleryListInteractorListener {
     private GalleryView galleryView;
+    private AppCompatActivity activity;
     private GalleryInteractor galleryInteractor;
 
     public GalleryPresenterImpl(GalleryView galleryView) {
@@ -24,12 +25,21 @@ public class GalleryPresenterImpl implements GalleryPresenter,
     }
 
     @Override
-    public void loadImages(AppCompatActivity activity) {
+    public void loadPhotoList(AppCompatActivity activity) {
       if (galleryView != null){
           galleryView.hideEmptyView();
           galleryView.showProgress();
       }
       this.galleryInteractor.fetchImages(activity,this);
+    }
+
+    /** Progress should not be shown here as there is a refreshing progress*/
+    @Override
+    public void refreshPhotoList(AppCompatActivity activity) {
+        if (galleryView != null){
+            galleryView.hideEmptyView();
+        }
+        this.galleryInteractor.fetchImages(activity,this);
     }
 
 
