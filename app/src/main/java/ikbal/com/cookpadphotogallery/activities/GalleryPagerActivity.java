@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -61,7 +62,10 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
 
     @Override
     public void showItem(int position) {
-        galleryPagerAdapter = new GalleryHorizontalPagerAdapter(getSupportFragmentManager());
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        //fragmentManager.addSharedElement(imageView, ViewCompat.getTransitionName(imageView))
+
+        galleryPagerAdapter = new GalleryHorizontalPagerAdapter(fragmentManager);
 
         galleryPager.setAdapter(galleryPagerAdapter);
         galleryPager.setCurrentItem(position);
@@ -78,11 +82,14 @@ public class GalleryPagerActivity extends AppCompatActivity implements GalleryPa
     private class GalleryHorizontalPagerAdapter extends FragmentStatePagerAdapter {
 
          GalleryHorizontalPagerAdapter(FragmentManager fm) {
+
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
+           // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().addSharedElement()
+
             return PhotoDetailFragment.newInstance(PhotoSerializableUtils.photoToJson(photos.get(position)));
         }
 
