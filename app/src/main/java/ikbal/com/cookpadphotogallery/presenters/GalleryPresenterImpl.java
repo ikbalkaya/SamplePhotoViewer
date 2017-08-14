@@ -26,7 +26,7 @@ public class GalleryPresenterImpl implements GalleryPresenter,
     @Override
     public void loadImages(AppCompatActivity activity) {
       if (galleryView != null){
-          galleryView.hideNoItem();
+          galleryView.hideEmptyView();
           galleryView.showProgress();
       }
       this.galleryInteractor.fetchImages(activity,this);
@@ -36,7 +36,7 @@ public class GalleryPresenterImpl implements GalleryPresenter,
     @Override
     public void onPhotosRetrieved(List<Photo> photoList) {
         if(galleryView != null){
-            galleryView.hideNoItem();
+            galleryView.hideEmptyView();
             galleryView.hideProgress();
             galleryView.showList(photoList);
         }
@@ -46,7 +46,7 @@ public class GalleryPresenterImpl implements GalleryPresenter,
     public void onErrorRetrievingPhotos(String errorString) {
         if(galleryView != null){
             galleryView.hideProgress();
-            galleryView.showNoItem();
+            galleryView.showEmptyView(errorString);
         }
     }
 }

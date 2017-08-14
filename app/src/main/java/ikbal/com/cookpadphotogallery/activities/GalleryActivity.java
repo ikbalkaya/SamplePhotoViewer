@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -41,6 +42,9 @@ public class GalleryActivity extends AppCompatActivity
 
     @BindView(R.id.empty_view)
     LinearLayout emptyView;
+
+    @BindView(R.id.empty_textView)
+    TextView emptyTextView;
 
     @BindView(R.id.images_loading_progressBar)
     ProgressBar loadingProgressBar;
@@ -147,12 +151,13 @@ public class GalleryActivity extends AppCompatActivity
     }
 
     @Override
-    public void showNoItem() {
+    public void showEmptyView(String errorMessage) {
         emptyView.setVisibility(View.VISIBLE);
+        emptyTextView.setText(errorMessage);
     }
 
     @Override
-    public void hideNoItem() {
+    public void hideEmptyView() {
         emptyView.setVisibility(View.GONE);
     }
 

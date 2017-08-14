@@ -12,6 +12,6 @@ public interface GalleryView {
     void showProgress();
     void hideProgress();
     void showList(List<Photo> photoList);
-    void showNoItem();
-    void hideNoItem();
+    void showEmptyView(String errorMessage);
+    void hideEmptyView();
 }
