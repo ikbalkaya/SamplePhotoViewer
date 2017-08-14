@@ -71,7 +71,7 @@ public class GalleryActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             String photosJson = savedInstanceState.getString(PhotoCacheService.EXTRA_PHOTOS);
             photos = PhotoSerializableUtils.photoListFromJson(photosJson);
-            loadGalleryImages();
+            updateRecyclerViewAdapter();
         } else {
             presenter.loadPhotoList(this);
         }
@@ -128,8 +128,9 @@ public class GalleryActivity extends AppCompatActivity
         startActivityForResult(intent, PAGER_REQUEST_CODE, options.toBundle());
     }
 
-    private void loadGalleryImages() {
-
+    private void updateRecyclerViewAdapter() {
+        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
+        photosRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -145,8 +146,7 @@ public class GalleryActivity extends AppCompatActivity
     @Override
     public void showList(List<Photo> photoList) {
         this.photos = photoList;
-        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
-        photosRecyclerView.setAdapter(adapter);
+        updateRecyclerViewAdapter();
 
         //also cancel refreshing
         gallerySwipeRefreshLayout.setRefreshing(false);

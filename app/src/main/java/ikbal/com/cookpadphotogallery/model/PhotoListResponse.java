@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public class PhotoListResponse {
-    private int page;
+    private int page;//this could be useful in cas
     @SerializedName("photo")
     private List<Photo> photos;
 
