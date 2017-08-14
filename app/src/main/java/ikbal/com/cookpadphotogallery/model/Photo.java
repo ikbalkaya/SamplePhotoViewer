@@ -10,6 +10,7 @@ public class Photo {
     private String id;
     private String secret;
     private String server;
+    private String farm;
 
     public String getId() {
         return id;
@@ -22,12 +23,10 @@ public class Photo {
 
     //320 for longest side
     public String thumbUrl() {
-        int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_n.jpg", farmId, this.server, this.id, this.secret);
+        return String.format("https://farm%s.staticflickr.com/%s/%s_%s_n.jpg", this.farm, this.server, this.id, this.secret);
     }
 //big image url
     public String originalUrl() {
-        int farmId = 1;
-        return String.format("https://farm%d.staticflickr.com/%s/%s_%s_b.jpg", farmId, this.server, this.id, this.secret);
+        return String.format("https://farm%s.staticflickr.com/%s/%s_%s_b.jpg", this.farm, this.server, this.id, this.secret);
     }
 }
