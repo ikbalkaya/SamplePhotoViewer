@@ -34,7 +34,9 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         this.photos = photos;
         this.listener = listener;
     }
-
+    public interface OnThumbClickListener {
+        void onClickOnThumb(int photoIndex, ImageView imageView, ProgressBar progressBar) ;
+    }
 
     @Override
     public int getItemCount() {
@@ -74,7 +76,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
 
-        //add imageview to shared element map
+        //add imageview to shared element map, helping for exit operation
         viewMapForSharedElements.put(holder.getAdapterPosition(),holder.galleryImageView);
         Picasso.with(context)
                 .load(photo.thumbUrl())

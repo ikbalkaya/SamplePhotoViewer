@@ -5,11 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ikbal.com.cookpadphotogallery.activities.GalleryActivity">
+   <android.support.v4.widget.SwipeRefreshLayout
+       android:id="@+id/gallery_swipeRefreshLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/photos_recyclerView"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" />
+   </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/photos_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
