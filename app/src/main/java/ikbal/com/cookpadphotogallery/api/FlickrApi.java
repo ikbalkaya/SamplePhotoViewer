@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 public interface FlickrApi {
     @GET(ApiConstants.BASE_API_URL+"/services/rest/?method=flickr.photos.getRecent&api_key="+
             ApiConstants.API_KEY+"&format=json&nojsoncallback=1")
-    Call<PhotoListResponse> fetchRecentPhotos(@Query("per_page") int perPage, @Query("page") int page);
+    Call<PhotoListResponse> fetchRecentPhotos();
 }

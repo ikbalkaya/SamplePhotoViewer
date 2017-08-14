@@ -61,9 +61,9 @@ public class PhotoCacheService extends IntentService{
 
     }
     private void retrieveGalleryPhotos(){
-        FlickrApi api = ApiCreator.getApiReference();
+        FlickrApi api = ApiCreator.getServiceReference(ApiCreator.ACTION_RECENT_PHOTOS);
 
-        final Call<PhotoListResponse> photoListCall = api.fetchRecentPhotos(1000, 1);
+        final Call<PhotoListResponse> photoListCall = api.fetchRecentPhotos();
         photoListCall.enqueue(new Callback<PhotoListResponse>() {
             @Override
             public void onResponse(Call<PhotoListResponse> call, Response<PhotoListResponse> response) {
