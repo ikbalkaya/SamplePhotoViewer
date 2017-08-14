@@ -116,7 +116,7 @@ public class GalleryActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClickOnThumb(final int photoIndex, final ImageView imageView, final ProgressBar progressBar) {
+    public void onClickOnThumb(final int photoIndex, final ImageView imageView) {
         Intent intent = new Intent(this, GalleryPagerActivity.class);
         Gson gson = new Gson();
         intent.putExtra(GalleryPagerActivity.EXTRA_PHOTOS, gson.toJson(photos));
@@ -125,7 +125,6 @@ public class GalleryActivity extends AppCompatActivity
         ActivityOptionsCompat options =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageView, transitionName);
 
-        progressBar.setVisibility(View.GONE);
         startActivityForResult(intent, PAGER_REQUEST_CODE, options.toBundle());
     }
 
@@ -148,12 +147,18 @@ public class GalleryActivity extends AppCompatActivity
     public void showList(List<Photo> photoList) {
         this.photos = photoList;
         loadGalleryImages();
+
+        //also cancel refreshing
+        gallerySwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showEmptyView(String errorMessage) {
         emptyView.setVisibility(View.VISIBLE);
         emptyTextView.setText(errorMessage);
+
+        //if it was refreshing cancel that as well
+        gallerySwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         this.listener = listener;
     }
     public interface OnThumbClickListener {
-        void onClickOnThumb(int photoIndex, ImageView imageView, ProgressBar progressBar) ;
+        void onClickOnThumb(int photoIndex, ImageView imageView) ;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClickOnThumb(position, holder.galleryImageView, holder.galleryImageProgressBar);
+                listener.onClickOnThumb(position, holder.galleryImageView);
             }
         });
 
@@ -112,7 +112,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
         @BindView(R.id.gallery_image_progress)
         ProgressBar galleryImageProgressBar;
 
-        public PhotoViewHolder(View itemView) {
+         PhotoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
