@@ -108,14 +108,16 @@ public class GalleryActivity extends AppCompatActivity
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
-        int selectedIndex = data.getIntExtra(GalleryPagerActivity.EXTRA_SELECTED_INDEX,0);
+        final int selectedIndex = data.getIntExtra(GalleryPagerActivity.EXTRA_SELECTED_INDEX,0);
         final Photo photo = photos.get(selectedIndex);
 
         setExitSharedElementCallback(new SharedElementCallback() {
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                View view = adapter.viewForSharedElementId(photo.getId());
-                sharedElements.put(photo.getId(),view);
+                View view = adapter.viewForSharedElementId(selectedIndex);
+                if (view != null){
+                    sharedElements.put(photo.getId(),view);
+                }
 
             }
         });

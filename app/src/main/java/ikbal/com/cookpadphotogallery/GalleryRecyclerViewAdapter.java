@@ -28,7 +28,7 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
     private List<Photo> photos;
     private OnThumbClickListener listener;
 
-    private  WeakHashMap<String,ImageView> viewMapForSharedElements = new WeakHashMap<>();
+    private  WeakHashMap<Integer,ImageView> viewMapForSharedElements = new WeakHashMap<>();
 
     public GalleryRecyclerViewAdapter(List<Photo> photos, OnThumbClickListener listener) {
         this.photos = photos;
@@ -48,13 +48,15 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_photo_cell, parent, false);
         PhotoViewHolder viewHolder = new PhotoViewHolder(view);
+
         updateImageSize(viewHolder.galleryImageView);
         return viewHolder;
     }
 
-    public View viewForSharedElementId(String id){
-        return viewMapForSharedElements.get(id);
+    public View viewForSharedElementId(int index){
+        return viewMapForSharedElements.get(index);
     }
+
     /*image size needs to be normalized to adapt the current screen */
     private void updateImageSize(ImageView imageView) {
         int calculatedDimension = DisplayUtils.thumbDimension();
@@ -71,8 +73,9 @@ public class GalleryRecyclerViewAdapter extends RecyclerView.Adapter<GalleryRecy
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         final Photo photo = photos.get(position);
         final Context context = holder.itemView.getContext();
+
         //add imageview to shared element map
-        viewMapForSharedElements.put(photo.getId(),holder.galleryImageView);
+        viewMapForSharedElements.put(holder.getAdapterPosition(),holder.galleryImageView);
         Picasso.with(context)
                 .load(photo.thumbUrl())
                 .into(holder.galleryImageView, new Callback() {
