@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ikbal.com.cookpadphotogallery.activities.GalleryActivity">
+    tools:context="ikbal.com.photoviewer.ikbal.com.photoviewer.activities.GalleryActivity">
    <android.support.v4.widget.SwipeRefreshLayout
        android:id="@+id/gallery_swipeRefreshLayout"
        android:layout_width="match_parent"

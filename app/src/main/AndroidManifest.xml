@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ikbal.com.cookpadphotogallery">
+    package="ikbal.com.photoviewer">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -10,10 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".PhotoGalleryApplication"
+        android:name="ikbal.com.photoviewer.PhotoGalleryApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.GalleryActivity"
+            android:name="ikbal.com.photoviewer.activities.GalleryActivity"
             android:label="@string/recent_photos_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.GalleryPagerActivity"
+        <activity android:name="ikbal.com.photoviewer.activities.GalleryPagerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <service android:name=".services.PhotoCacheService"
+        <service android:name="ikbal.com.photoviewer.services.PhotoCacheService"
             android:exported="false"/>
     </application>
 
