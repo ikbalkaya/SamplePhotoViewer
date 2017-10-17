@@ -17,7 +17,7 @@ public class PhotoGalleryApplication extends Application{
 
         //https://stackoverflow.com/questions/23978828/how-do-i-use-disk-caching-in-picasso
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttp3Downloader(this,Integer.MAX_VALUE));
+        builder.downloader(new OkHttp3Downloader(this,100000000));
         Picasso picasso = builder.build();
         Picasso.setSingletonInstance(picasso);
     }
