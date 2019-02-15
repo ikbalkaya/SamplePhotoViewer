@@ -27,7 +27,7 @@ import ikbal.com.photoviewer.adapters.GalleryRecyclerViewAdapter;
 import ikbal.com.photoviewer.R;
 import ikbal.com.photoviewer.model.Photo;
 import ikbal.com.photoviewer.presenters.GalleryPresenter;
-import ikbal.com.photoviewer.presenters.GalleryPresenterImpl;
+import ikbal.com.photoviewer.presenters.GridPresenter;
 import ikbal.com.photoviewer.services.PhotoCacheService;
 import ikbal.com.photoviewer.view.GalleryView;
 import ikbal.com.photoviewer.utils.DisplayUtils;
@@ -66,7 +66,7 @@ public class GalleryActivity extends AppCompatActivity
         photosLayoutManager = new GridLayoutManager(this, DisplayUtils.photoPerRow());
         photosRecyclerView.setLayoutManager(photosLayoutManager);
 
-        presenter = new GalleryPresenterImpl(this);
+        presenter = new GridPresenter(this);
 
         if (savedInstanceState != null) {
             String photosJson = savedInstanceState.getString(PhotoCacheService.EXTRA_PHOTOS);
