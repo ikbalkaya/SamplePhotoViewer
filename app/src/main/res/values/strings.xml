@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CookpadPhotoGallery</string>
+    <string name="app_name">Flickr Photo Gallery</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -99,4 +99,7 @@
     <string name="no_image_available">No image available</string>
     <string name="retry">Retry</string>
     <string name="network_not_connected_message">Network connection is not available</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

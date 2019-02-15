@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ikbal.com.cookpadphotogallery", appContext.getPackageName());
+        assertEquals("ikbal.com.photoviewer", appContext.getPackageName());
     }
 }

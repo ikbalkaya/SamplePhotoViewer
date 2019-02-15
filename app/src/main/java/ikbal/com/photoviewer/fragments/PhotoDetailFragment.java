@@ -19,12 +19,12 @@ import com.squareup.picasso.Target;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ikbal.com.photoviewer.R;
 import ikbal.com.photoviewer.model.Photo;
 import ikbal.com.photoviewer.presenters.PhotoDetailPresenter;
 import ikbal.com.photoviewer.presenters.PhotoDetailPresenterImpl;
 import ikbal.com.photoviewer.utils.PhotoSerializableUtils;
 import ikbal.com.photoviewer.view.PhotoDetailView;
+import ikbal.com.photoviewer.R;
 
 /**
  * Created by ikbal on 14/08/2017.

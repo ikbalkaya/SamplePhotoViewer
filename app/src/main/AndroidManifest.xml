@@ -3,28 +3,42 @@
     package="ikbal.com.photoviewer">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".PhotoGalleryApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="ikbal.com.photoviewer.PhotoGalleryApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ikbal.com.photoviewer.activities.GalleryActivity"
+            android:name=".activities.GalleryActivity"
             android:label="@string/recent_photos_title">
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".activities.GalleryPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".services.PhotoCacheService"
+            android:exported="false" />
+
+        <activity android:name=".activities.SAmpleContainerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ikbal.com.photoviewer.activities.GalleryPagerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <service android:name="ikbal.com.photoviewer.services.PhotoCacheService"
-            android:exported="false"/>
     </application>
 
 </manifest>
