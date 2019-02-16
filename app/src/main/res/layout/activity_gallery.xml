@@ -4,48 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_container"
     tools:context="ikbal.com.photoviewer.ikbal.com.photoviewer.activities.GalleryActivity">
-   <android.support.v4.widget.SwipeRefreshLayout
-       android:id="@+id/gallery_swipeRefreshLayout"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
-       <android.support.v7.widget.RecyclerView
-           android:id="@+id/photos_recyclerView"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" />
-   </android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/empty_view"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
-        <TextView
-            android:id="@+id/empty_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_image_available"
-            android:textSize="@dimen/large_text_size"
-
-            />
-        <Button
-            android:id="@+id/retry_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/retry"/>
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/images_loading_progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:visibility="visible"
-        android:visibility="gone"/>
 
 </FrameLayout>
 

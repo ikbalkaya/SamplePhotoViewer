@@ -3,6 +3,7 @@ package ikbal.com.photoviewer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ikbal.com.photoviewer.adapters.GalleryRecyclerViewAdapter;
 import ikbal.com.photoviewer.R;
+import ikbal.com.photoviewer.fragments.PhotoGalleryFragment;
 import ikbal.com.photoviewer.model.Photo;
 import ikbal.com.photoviewer.presenters.GalleryPresenter;
 import ikbal.com.photoviewer.presenters.GridPresenter;
@@ -33,52 +35,18 @@ import ikbal.com.photoviewer.view.GalleryView;
 import ikbal.com.photoviewer.utils.DisplayUtils;
 import ikbal.com.photoviewer.utils.PhotoSerializableUtils;
 
-public class GalleryActivity extends AppCompatActivity
-        implements GalleryRecyclerViewAdapter.OnThumbClickListener,
-        GalleryView, SwipeRefreshLayout.OnRefreshListener {
-    private static final int PAGER_REQUEST_CODE = 20;
-    @BindView(R.id.photos_recyclerView)
-    RecyclerView photosRecyclerView;
-
-    @BindView(R.id.empty_view)
-    LinearLayout emptyView;
-
-    @BindView(R.id.empty_textView)
-    TextView emptyTextView;
-
-    @BindView(R.id.images_loading_progressBar)
-    ProgressBar loadingProgressBar;
-
-    @BindView(R.id.gallery_swipeRefreshLayout)
-    SwipeRefreshLayout gallerySwipeRefreshLayout;
-
-    private GridLayoutManager photosLayoutManager;
-    private GalleryRecyclerViewAdapter adapter;
-    private List<Photo> photos;
-
-    private GalleryPresenter presenter;
+public class GalleryActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        ButterKnife.bind(this);
-        photosLayoutManager = new GridLayoutManager(this, DisplayUtils.photoPerRow());
-        photosRecyclerView.setLayoutManager(photosLayoutManager);
 
-        presenter = new GridPresenter(this);
-
-        if (savedInstanceState != null) {
-            String photosJson = savedInstanceState.getString(PhotoCacheService.EXTRA_PHOTOS);
-            photos = PhotoSerializableUtils.photoListFromJson(photosJson);
-            updateRecyclerViewAdapter();
-        } else {
-            presenter.loadPhotoList(this);
-        }
-        //set refresh listener
-        gallerySwipeRefreshLayout.setOnRefreshListener(this);
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.fragment_container, PhotoGalleryFragment.newInstance()).commit();
     }
 
+    /***
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -92,6 +60,7 @@ public class GalleryActivity extends AppCompatActivity
     /**
      * https://youtu.be/4L4fLrWDvAU?t=1964
      */
+    /**
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
@@ -110,65 +79,6 @@ public class GalleryActivity extends AppCompatActivity
         });
     }
 
-    @OnClick(R.id.retry_button)
-    public void retry(View view) {
-        presenter.loadPhotoList(this);
-    }
-
-    @Override
-    public void onClickOnThumb(final int photoIndex, final ImageView imageView) {
-        Intent intent = new Intent(this, GalleryPagerActivity.class);
-        Gson gson = new Gson();
-        intent.putExtra(GalleryPagerActivity.EXTRA_PHOTOS, gson.toJson(photos));
-        intent.putExtra(GalleryPagerActivity.EXTRA_SELECTED_INDEX, photoIndex);
-        String transitionName = photos.get(photoIndex).getId();
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageView, transitionName);
-
-        startActivityForResult(intent, PAGER_REQUEST_CODE, options.toBundle());
-    }
-
-    private void updateRecyclerViewAdapter() {
-        adapter = new GalleryRecyclerViewAdapter(photos, GalleryActivity.this);
-        photosRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void showProgress() {
-        loadingProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        loadingProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showList(List<Photo> photoList) {
-        this.photos = photoList;
-        updateRecyclerViewAdapter();
-
-        //also cancel refreshing
-        gallerySwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showEmptyView(String errorMessage) {
-        emptyView.setVisibility(View.VISIBLE);
-        emptyTextView.setText(errorMessage);
-
-        //if it was refreshing cancel that as well
-        gallerySwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void hideEmptyView() {
-        emptyView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onRefresh() {
-        presenter.refreshPhotoList(this);
-    }
+    **/
 }
 

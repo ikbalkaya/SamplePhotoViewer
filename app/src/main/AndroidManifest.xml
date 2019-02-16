@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ikbal.com.photoviewer">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,17 +13,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".activities.GalleryActivity"
-            android:label="@string/recent_photos_title">
-            <!--
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activities.GallerySelectorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
+        </activity>
+        <activity android:name=".activities.GalleryTopActivity">
+
+        </activity>
+        <activity
+            android:name=".activities.GalleryActivity"
+            android:label="@string/recent_photos_title">
+
         </activity>
         <activity
             android:name=".activities.GalleryPagerActivity"
@@ -31,14 +37,6 @@
         <service
             android:name=".services.PhotoCacheService"
             android:exported="false" />
-
-        <activity android:name=".activities.SAmpleContainerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

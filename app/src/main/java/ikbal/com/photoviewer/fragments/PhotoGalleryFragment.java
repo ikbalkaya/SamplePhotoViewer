@@ -80,7 +80,7 @@ public class PhotoGalleryFragment extends Fragment implements GalleryRecyclerVie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View contentView = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
-        ButterKnife.bind(contentView);
+        ButterKnife.bind(this,contentView);
         return contentView;
     }
 

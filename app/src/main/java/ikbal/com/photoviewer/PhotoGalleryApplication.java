@@ -3,7 +3,6 @@ package ikbal.com.photoviewer;
 import android.app.Application;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 /**
